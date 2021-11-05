@@ -14,7 +14,7 @@ const obtenerCategorias = async (req=request, res)=>{
 
     console.log
     const[categorias,total]=await Promise.all([
-            Categoria.find({estado:true}).populate("usuario").skip(Number(desde)).limit(Number(limit)),
+            Categoria.find({estado:true}).populate("usuario","nombre").skip(Number(desde)).limit(Number(limit)),
             Categoria.countDocuments({estado:true}) ]);
     
 
@@ -28,7 +28,7 @@ const buscarCategoriaPorId=async (req=request, res=response)=>{
     const { id }=req.params;
 
     let categoria = await Categoria.findById(id)
-            .populate("usuario")
+            .populate("usuario","nombre");
            
 
     if (!categoria){
@@ -69,6 +69,43 @@ const crearCategoria=async (req=request,res=response)=>{
     })
 }
 
+const eliminarCategoria=async(req, res)=>{
+
+    const { id } = req.params;
+    const usuario=req.autenticado;
+
+    const categoria=await Categoria.findByIdAndUpdate(id, {estado:false}, {new:true});
+
+    return res.status(200).json({
+
+        categoria,
+        usuario
+
+    });
+}
+
+const actualizarCategoria=async(req=request, res=response)=>{
+
+    const nombre=req.body.nombre.toUpperCase();
+    const { id }= req.params;
+
+    const data={nombre,usuario:req.autenticado._id}
+
+    let categoria=await Categoria.findOne({nombre});
+
+    if(categoria){
+        res.status(400).json({
+            msg:`Ya existe una categoria con el nombre ${nombre}`
+        });
+    }
+
+    categoria=await Categoria.findByIdAndUpdate(id,data,{new: true});
+
+    return res.status(200).json({
+        categoria
+    });
+
+}
 
 
 
@@ -77,5 +114,7 @@ const crearCategoria=async (req=request,res=response)=>{
 module.exports={
     crearCategoria,
     buscarCategoriaPorId,
-    obtenerCategorias
+    obtenerCategorias,
+    eliminarCategoria,
+    actualizarCategoria
 }

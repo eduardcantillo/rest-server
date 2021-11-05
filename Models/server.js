@@ -13,6 +13,7 @@ class Server {
             auth:"/api/auth",
             categorias:"/api/categoria",
             usuarios:"/api/usuarios",
+            productos:"/api/productos"
             
         }
         //Coneccion a mongo DB
@@ -34,6 +35,7 @@ class Server {
 
         this.app.use(this.paths.auth,require("../routes/auth.routes"));
         this.app.use(this.paths.categorias,require("../routes/categorias.routes"));
+        this.app.use(this.paths.productos,require("../routes/productos.routes"));
         this.app.use(this.paths.usuarios,require("../routes/usuario.routes"));
     }
 
