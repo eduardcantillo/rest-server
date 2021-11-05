@@ -8,8 +8,13 @@ class Server {
     constructor() {
 
         this.app = express();
-        this.usuariosRoutePath="/api/usuarios";
-        this.apiAuth="/api/auth";
+
+        this.paths={
+            auth:"/api/auth",
+            categorias:"/api/categoria",
+            usuarios:"/api/usuarios",
+            
+        }
         //Coneccion a mongo DB
         this.conectarDB();
 
@@ -26,8 +31,10 @@ class Server {
     }
 
     routes() {
-        this.app.use(this.apiAuth,require("../routes/auth.routes"));
-        this.app.use(this.usuariosRoutePath,require("../routes/usuario.routes"));
+
+        this.app.use(this.paths.auth,require("../routes/auth.routes"));
+        this.app.use(this.paths.categorias,require("../routes/categorias.routes"));
+        this.app.use(this.paths.usuarios,require("../routes/usuario.routes"));
     }
 
     middleware(){

@@ -1,5 +1,5 @@
 const { response, request }=require("express");
-const Usuario=require('../Models/usuario');
+const { Usuario }=require('../Models');
 const bcrypt=require("bcryptjs");
 
 

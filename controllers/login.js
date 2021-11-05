@@ -1,7 +1,7 @@
 const { response, request } =require("express");
 const bcryptjs=require("bcryptjs");
 
-const Usuario=require("../Models/usuario");
+const { Usuario }=require("../Models");
 
 const {generarJWT}=require("../helpers/generar-jwt");
 const { verify }=require("../helpers/google-verify");

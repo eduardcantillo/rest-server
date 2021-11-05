@@ -1,5 +1,4 @@
 const { request, response } = require("express");
-const role = require("../Models/role");
 
 const isAdminRole=(req=request, res=response, next)=>{
     const usuario=req.autenticado;
